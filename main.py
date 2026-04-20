@@ -11,9 +11,57 @@ from operations import (
     replace_record,
     delete_from_index,
     range_statistics,
-    input_record_from_keyboard,
-    input_index,
 )
+
+
+# ============================================================
+# Допоміжні функції для введення даних
+# ============================================================
+def input_record_from_keyboard() -> ElectricityRecord:
+    """
+    Запитує у користувача дані для нового запису та повертає об'єкт ElectricityRecord.
+    """
+    while True:
+        date = input("  Дата (РРРР-ММ): ").strip()
+        if not date:
+            print("  [Помилка] Дата обов'язкова.")
+            continue
+        break
+    apartment = input("  Квартира: ").strip()
+    while True:
+        try:
+            consumption = float(input("  Споживання (кВт·год): ").strip())
+            break
+        except ValueError:
+            print("  [Помилка] Введіть числове значення.")
+    while True:
+        try:
+            cost = float(input("  Вартість (грн): ").strip())
+            break
+        except ValueError:
+            print("  [Помилка] Введіть числове значення.")
+    while True:
+        try:
+            meter_reading = float(input("  Показник лічильника (кВт·год): ").strip())
+            break
+        except ValueError:
+            print("  [Помилка] Введіть числове значення.")
+    return ElectricityRecord(date, apartment, consumption, cost, meter_reading)
+
+
+def input_index(records: list, prompt: str = "  Введіть індекс: ") -> int:
+    """
+    Запитує у користувача індекс елемента масиву та перевіряє його коректність.
+    """
+    while True:
+        try:
+            index = int(input(prompt).strip())
+            if 0 <= index < len(records):
+                return index
+            else:
+                print(f"  [Помилка] Індекс має бути від 0 до {len(records)-1}.")
+        except ValueError:
+            print("  [Помилка] Введіть ціле число.")
 
 
 # ============================================================
